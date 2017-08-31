@@ -5,7 +5,8 @@ import command_system
 def info(user_id):
     message = ''
     for c in command_system.command_list:
-        message += c.keys[0] + ' - ' + c.description + '\n'
+        if c.view:
+            message += c.keys[0] + ' - ' + c.description + '\n'
     return message, ''
 
 info_command = command_system.Command()

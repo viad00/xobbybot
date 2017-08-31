@@ -4,6 +4,7 @@ import vkapi
 import os
 import importlib
 from command_system import command_list
+from bot_session import check_session
 
 
 def load_modules():
@@ -14,6 +15,8 @@ def load_modules():
 
 
 def get_answer(body, user_id):
+   if check_session(user_id):
+       return 'Вы заблокированны сессией', ''
    message = u"Прости, не понимаю тебя. Напиши 'помощь', чтобы узнать мои команды"
    attachment = ''
    distance = len(body)

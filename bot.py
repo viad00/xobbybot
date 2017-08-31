@@ -3,7 +3,7 @@
 from flask import Flask, json, request
 import messageHandler
 from settings import *
-import commands.hello
+import vkapi
 
 app = Flask(__name__)
 
@@ -20,7 +20,9 @@ def processing():
         messageHandler.create_answer(data['object'], VK_TOKEN)
         return 'ok'
     elif data['type'] == 'message_allow':
-        print(str(request.data))
+        message = u'Привет!\nЯ чат-бот автосервиса Хобби-Авто.\nНаш сайт http://www.hobbyauto.ru\nБуду рад ответить на ' \
+                  u'возникшие вопросы!\nНапиши "помощь" для списка комманд.'
+        vkapi.send_message(data['object']['user_id'], VK_TOKEN, message, '')
         return 'ok'
 
 
