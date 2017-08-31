@@ -1,3 +1,4 @@
+# coding=UTF-8
 command_list = []
 
 
@@ -16,5 +17,5 @@ class Command:
        for k in mas:
            self.__keys.append(k.lower())
 
-   def process(self):
+   def process(self, user_id):
        pass
