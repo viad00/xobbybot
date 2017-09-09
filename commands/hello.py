@@ -3,7 +3,7 @@ import command_system
 
 
 def hello(user_id):
-   message = u'Привет!\nЯ чат-бот автосервиса Хобби-Авто.\nДля списка комманд напиши "помощь"'
+   message = u'Привет! Я бот Автоцентра ХОББИ-АВТО.\n Напиши "помощь" для списка команд.'
    return message, ''
 
 hello_command = command_system.Command()

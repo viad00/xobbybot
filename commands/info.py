@@ -3,7 +3,7 @@ import command_system
 
 
 def info(user_id):
-    message = ''
+    message = u'Я знаю следующие команды:\n'
     for c in command_system.command_list:
         if c.view:
             message += c.keys[0] + ' - ' + c.description + '\n'

@@ -1,10 +1,11 @@
-#!/bin/python
+#!/bin/python2
 # coding=UTF-8
 import vkapi
 import os
 import importlib
 from command_system import command_list
 from bot_session import check_session
+from routerHandler import route
 
 
 def load_modules():
@@ -16,7 +17,8 @@ def load_modules():
 
 def get_answer(body, user_id):
    if check_session(user_id):
-       return 'Вы заблокированны сессией', ''
+       message, attachment = route(user_id, body)
+       return message, attachment
    message = u"Прости, не понимаю тебя. Напиши 'помощь', чтобы узнать мои команды"
    attachment = ''
    distance = len(body)

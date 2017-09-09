@@ -1,4 +1,4 @@
-#!/bin/python
+#!/bin/python2
 # coding=UTF-8
 from flask import Flask, json, request
 import messageHandler
