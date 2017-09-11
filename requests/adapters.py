@@ -491,7 +491,7 @@ class HTTPAdapter(BaseAdapter):
 
         except MaxRetryError as e:
             if isinstance(e.reason, ConnectTimeoutError):
-                # TODO: Remove this in 3.0.0: see #2811
+                # ODO: Remove this in 3.0.0: see #2811
                 if not isinstance(e.reason, NewConnectionError):
                     raise ConnectTimeout(e, request=request)
 

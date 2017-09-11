@@ -283,7 +283,7 @@ def url_for(endpoint, **values):
                 else:
                     endpoint = endpoint[1:]
         else:
-            # TODO: get rid of this deprecated functionality in 1.0
+            # ODO: get rid of this deprecated functionality in 1.0
             if '.' not in endpoint:
                 if blueprint_name is not None:
                     endpoint = blueprint_name + '.' + endpoint

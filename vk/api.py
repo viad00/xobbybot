@@ -65,14 +65,14 @@ class Session(object):
         logger.debug('Prepare API Method request')
 
         response = self.send_api_request(method_request, captcha_response=captcha_response)
-        # todo Replace with something less exceptional
+        # odo Replace with something less exceptional
         response.raise_for_status()
 
         # there are may be 2 dicts in one JSON
         # for example: "{'error': ...}{'response': ...}"
         for response_or_error in json_iter_parse(response.text):
             if 'response' in response_or_error:
-                # todo Can we have error and response simultaneously
+                # odo Can we have error and response simultaneously
                 # for error in errors:
                 #     logger.warning(str(error))
 

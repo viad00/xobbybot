@@ -17,7 +17,7 @@ HOOKS = ['response']
 def default_hooks():
     return dict((event, []) for event in HOOKS)
 
-# TODO: response is the only one
+# ODO: response is the only one
 
 
 def dispatch_hook(key, hooks, hook_data, **kwargs):

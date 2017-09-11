@@ -302,12 +302,12 @@ class HTTPResponse(io.IOBase):
                 yield
 
             except SocketTimeout:
-                # FIXME: Ideally we'd like to include the url in the ReadTimeoutError but
+                # IXME: Ideally we'd like to include the url in the ReadTimeoutError but
                 # there is yet no clean way to get at it from this context.
                 raise ReadTimeoutError(self._pool, None, 'Read timed out.')
 
             except BaseSSLError as e:
-                # FIXME: Is there a better way to differentiate between SSLErrors?
+                # IXME: Is there a better way to differentiate between SSLErrors?
                 if 'read operation timed out' not in str(e):  # Defensive:
                     # This shouldn't happen but just in case we're missing an edge
                     # case, let's avoid swallowing SSL errors.
@@ -578,7 +578,7 @@ class HTTPResponse(io.IOBase):
             'content-encoding' header.
         """
         self._init_decoder()
-        # FIXME: Rewrite this method and make it a class with a better structured logic.
+        # IXME: Rewrite this method and make it a class with a better structured logic.
         if not self.chunked:
             raise ResponseNotChunked(
                 "Response is not chunked. "

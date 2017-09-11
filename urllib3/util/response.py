@@ -74,7 +74,7 @@ def is_response_to_head(response):
     :param conn:
     :type conn: :class:`httplib.HTTPResponse`
     """
-    # FIXME: Can we do this somehow without accessing private httplib _method?
+    # IXME: Can we do this somehow without accessing private httplib _method?
     method = response._method
     if isinstance(method, int):  # Platform-specific: Appengine
         return method == 3

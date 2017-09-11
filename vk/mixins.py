@@ -164,7 +164,7 @@ class AuthMixin(object):
         if not captcha_form_action:
             raise VkAuthError('Cannot find form url')
 
-        # todo Are we sure that `response_url_dict` doesn't contain CAPTCHA image url?
+        # odo Are we sure that `response_url_dict` doesn't contain CAPTCHA image url?
         captcha_url = '%s?s=%s&sid=%s' % (self.CAPTCHA_URI, response_url_dict['s'], response_url_dict['sid'])
         # logger.debug('Captcha url %s', captcha_url)
 

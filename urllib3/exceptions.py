@@ -227,7 +227,7 @@ class InvalidHeader(HTTPError):
 
 class ProxySchemeUnknown(AssertionError, ValueError):
     "ProxyManager does not support the supplied scheme"
-    # TODO(t-8ch): Stop inheriting from AssertionError in v2.0.
+    # ODO(t-8ch): Stop inheriting from AssertionError in v2.0.
 
     def __init__(self, scheme):
         message = "Not supported proxy scheme %s" % scheme

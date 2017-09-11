@@ -593,7 +593,7 @@ class WrappedSocket(object):
             Security.SSLClose(self.context)
 
     def close(self):
-        # TODO: should I do clean shutdown here? Do I have to?
+        # ODO: should I do clean shutdown here? Do I have to?
         if self._makefile_refs < 1:
             self._closed = True
             if self.context:
@@ -730,7 +730,7 @@ class SecureTransportContext(object):
 
     @property
     def options(self):
-        # TODO: Well, crap.
+        # ODO: Well, crap.
         #
         # So this is the bit of the code that is the most likely to cause us
         # trouble. Essentially we need to enumerate all of the SSL options that
@@ -740,7 +740,7 @@ class SecureTransportContext(object):
 
     @options.setter
     def options(self, value):
-        # TODO: Update in line with above.
+        # ODO: Update in line with above.
         self._options = value
 
     @property

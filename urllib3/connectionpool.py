@@ -431,7 +431,7 @@ class HTTPConnectionPool(ConnectionPool, RequestMethods):
         if url.startswith('/'):
             return True
 
-        # TODO: Add optional support for socket.gethostbyname checking.
+        # ODO: Add optional support for socket.gethostbyname checking.
         scheme, host, port = get_host(url)
 
         host = _ipv6_host(host).lower()

@@ -157,7 +157,7 @@ class HTTPConnection(_HTTPConnection, object):
         # http://hg.python.org/cpython/rev/0f57b30a152f) so pythons 2.6(0-2) do
         # not have them.
         if getattr(self, '_tunnel_host', None):
-            # TODO: Fix tunnel so it doesn't depend on self.sock state.
+            # ODO: Fix tunnel so it doesn't depend on self.sock state.
             self._tunnel()
             # Mark this connection as not reusable
             self.auto_open = 0

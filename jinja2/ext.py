@@ -157,7 +157,7 @@ class InternationalizationExtension(Extension):
     """This extension adds gettext support to Jinja2."""
     tags = set(['trans'])
 
-    # TODO: the i18n extension is currently reevaluating values in a few
+    # ODO: the i18n extension is currently reevaluating values in a few
     # situations.  Take this example:
     #   {% trans count=something() %}{{ count }} foo{% pluralize
     #     %}{{ count }} fooss{% endtrans %}
