@@ -82,3 +82,36 @@ def repair_update_type(user_id, type):
     conn.execute('UPDATE Repair SET type=:type WHERE user_id=:user_id', {'user_id': user_id, 'type': type})
     conn.commit()
     conn.close()
+
+
+def parts_write_answer(user_id, answer):
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('DELETE FROM Parts WHERE user_id=:user_id', {'user_id': user_id})
+        cursor.execute('INSERT INTO Parts VALUES (:user_id, :answer, NULL)', {"user_id": user_id, "answer": answer})
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        if str(e.message) == 'no such table: Parts':
+            cursor.execute('CREATE TABLE Parts(user_id TEXT, answer TEXT, type TEXT)')
+            cursor.execute('INSERT INTO Parts VALUES (:user_id, :answer, NULL)', {"user_id": user_id, "answer": answer})
+            conn.commit()
+            conn.close()
+            write_error(str(e))
+        else:
+            write_error(str(e))
+
+
+def parts_update_type(user_id, type):
+    conn = sqlite3.connect(DATABASE)
+    conn.execute('UPDATE Parts SET type=:type WHERE user_id=:user_id', {'user_id': user_id, 'type': type})
+    conn.commit()
+    conn.close()
+
+
+def parts_remove_query(user_id):
+    conn = sqlite3.connect(DATABASE)
+    conn.execute('DELETE FROM Parts WHERE user_id=:user_id', {'user_id': user_id})
+    conn.commit()
+    conn.close()

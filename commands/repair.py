@@ -9,6 +9,7 @@ def info(user_id):
     block_user(user_id, u'repair')
     return message, ''
 
+
 info_command = command_system.Command()
 
 info_command.keys = [u'ремонт', u'repair', u'записаться на ремонт']
