@@ -1,6 +1,6 @@
 #!/bin/python2
 # coding=UTF-8
-import dialogs.block, dialogs.repair, dialogs.parts, dialogs.sales, dialogs.tools
+import dialogs.block, dialogs.repair, dialogs.parts, dialogs.sales, dialogs.tools, dialogs.tyres
 
 routes = {
     'unblock': dialogs.block.unblock,
@@ -12,4 +12,5 @@ routes = {
     'parts_bosch': dialogs.parts.parts_bosch,
     'sale_get': dialogs.sales.get_sale,
     'tools': dialogs.tools.tools_write,
+    'tyres_size': dialogs.tyres.write_query,
 }

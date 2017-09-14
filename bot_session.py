@@ -162,3 +162,8 @@ def tools_write_db(user_id, answer):
             write_error(str(e))
         else:
             write_error(str(e))
+
+
+# TODO: This function
+def tyres_write_size(user_id, size):
+    pass

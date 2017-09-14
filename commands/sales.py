@@ -16,5 +16,5 @@ def sales(user_id):
 info_command = command_system.Command()
 
 info_command.keys = [u'акции', u'скидки', u'бонусы', u'sales']
-info_command.description = u'Покажу акции, бонусы, скидки'
+info_command.description = u'Расскажу про акции, бонусы, скидки'
 info_command.process = sales
