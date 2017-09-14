@@ -143,3 +143,22 @@ def get_sale_by_id(sale_id):
     cursor = conn.cursor()
     cursor.execute('SELECT text, image_src FROM Sales WHERE ROWID=:sale_id', {'sale_id': sale_id})
     return cursor.fetchone()
+
+
+def tools_write_db(user_id, answer):
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('DELETE FROM Tools WHERE user_id=:user_id', {'user_id': user_id})
+        cursor.execute('INSERT INTO Tools VALUES (:user_id, :answer, NULL)', {"user_id": user_id, "answer": answer})
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        if str(e.message) == 'no such table: Tools':
+            cursor.execute('CREATE TABLE Tools(user_id TEXT, answer TEXT)')
+            cursor.execute('INSERT INTO Tools VALUES (:user_id, :answer)', {"user_id": user_id, "answer": answer})
+            conn.commit()
+            conn.close()
+            write_error(str(e))
+        else:
+            write_error(str(e))
