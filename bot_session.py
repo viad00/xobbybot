@@ -115,3 +115,31 @@ def parts_remove_query(user_id):
     conn.execute('DELETE FROM Parts WHERE user_id=:user_id', {'user_id': user_id})
     conn.commit()
     conn.close()
+
+
+def get_all_sales():
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('SELECT ROWID, description FROM Sales')
+    except Exception as e:
+        if str(e.message) == 'no such table: Sales':
+            cursor.execute('CREATE TABLE Sales(description TEXT, text TEXT, image_src TEXT)')
+            conn.commit()
+            conn.close()
+            return [(1, u'В данный момент у нас нет акций(')]
+        else:
+            write_error(str(e))
+            return [(1, u'В данный момент у нас нет акций(')]
+    sales = cursor.fetchall()
+    if len(sales) > 0:
+        return sales
+    else:
+        return [(1, u'В данный момент у нас нет акций(')]
+
+
+def get_sale_by_id(sale_id):
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute('SELECT text, image_src FROM Sales WHERE ROWID=:sale_id', {'sale_id': sale_id})
+    return cursor.fetchone()
