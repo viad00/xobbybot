@@ -150,7 +150,7 @@ def tools_write_db(user_id, answer):
     cursor = conn.cursor()
     try:
         cursor.execute('DELETE FROM Tools WHERE user_id=:user_id', {'user_id': user_id})
-        cursor.execute('INSERT INTO Tools VALUES (:user_id, :answer, NULL)', {"user_id": user_id, "answer": answer})
+        cursor.execute('INSERT INTO Tools VALUES (:user_id, :answer)', {"user_id": user_id, "answer": answer})
         conn.commit()
         conn.close()
     except Exception as e:
@@ -164,6 +164,20 @@ def tools_write_db(user_id, answer):
             write_error(str(e))
 
 
-# TODO: This function
 def tyres_write_size(user_id, size):
-    pass
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('DELETE FROM Tyres_Query WHERE user_id=:user_id', {'user_id': user_id})
+        cursor.execute('INSERT INTO Tyres_Query VALUES (:user_id, :size)', {'user_id': user_id, 'size': size})
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        if str(e.message) == 'no such table: Tools':
+            cursor.execute('CREATE TABLE Tyres_Query(user_id TEXT, size TEXT)')
+            cursor.execute('INSERT INTO Tyres_Query VALUES (:user_id, :size)', {'user_id': user_id, 'size': size})
+            conn.commit()
+            conn.close()
+            write_error(str(e))
+        else:
+            write_error(str(e))
