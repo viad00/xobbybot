@@ -181,3 +181,30 @@ def tyres_write_size(user_id, size):
             write_error(str(e))
         else:
             write_error(str(e))
+
+
+def tyres_get_size(user_id):
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('SELECT size FROM Tyres_Query WHERE user_id=:user_id', {'user_id': user_id})
+        answer = cursor.fetchone()
+        cursor.execute('DELETE FROM Tyres_Query WHERE user_id=:user_id', {'user_id': user_id})
+        conn.commit()
+        conn.close()
+        return answer
+    except Exception as e:
+        write_error(str(e))
+        return '0/0/0'
+
+
+def tyres_find(size, season):
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('SELECT name, size, season, price FROM Tyres_Catalog WHERE size=:size AND season=:season',
+                       {'size': size, 'season': season})
+        return cursor.fetchall()
+    except Exception as e:
+        write_error(str(e))
+        return [('Name', '0/0/0', 'Season', '0')]

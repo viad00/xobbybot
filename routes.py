@@ -13,4 +13,5 @@ routes = {
     'sale_get': dialogs.sales.get_sale,
     'tools': dialogs.tools.tools_write,
     'tyres_size': dialogs.tyres.write_query,
+    'tyres_season': dialogs.tyres.find_tyres,
 }
