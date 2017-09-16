@@ -3,8 +3,9 @@ import sqlite3
 from settings import *
 import datetime
 
+
 def write_error(text):
-    f = open('db_errors.txt','a')
+    f = open('db_errors.txt', 'a')
     f.write(str(datetime.datetime.now()) + ': ' + text + '\n')
     f.close()
 
@@ -62,7 +63,8 @@ def repair_write_answer(user_id, answer):
     except Exception as e:
         if str(e.message) == 'no such table: Repair':
             cursor.execute('CREATE TABLE Repair(user_id TEXT, answer TEXT, type TEXT)')
-            cursor.execute('INSERT INTO Repair VALUES (:user_id, :answer, NULL)', {"user_id": user_id, "answer": answer})
+            cursor.execute('INSERT INTO Repair VALUES (:user_id, :answer, NULL)',
+                           {"user_id": user_id, "answer": answer})
             conn.commit()
             conn.close()
             write_error(str(e))
@@ -173,7 +175,7 @@ def tyres_write_size(user_id, size):
         conn.commit()
         conn.close()
     except Exception as e:
-        if str(e.message) == 'no such table: Tools':
+        if str(e.message) == 'no such table: Tyres_Query':
             cursor.execute('CREATE TABLE Tyres_Query(user_id TEXT, size TEXT)')
             cursor.execute('INSERT INTO Tyres_Query VALUES (:user_id, :size)', {'user_id': user_id, 'size': size})
             conn.commit()
@@ -208,3 +210,35 @@ def tyres_find(size, season):
     except Exception as e:
         write_error(str(e))
         return [('Name', '0/0/0', 'Season', '0')]
+
+
+# TODO: Реализовать следующие функции
+def tyres_get_install_price():
+    pass
+
+
+def tyres_get_fix_price():
+    pass
+
+
+def tyres_get_store_price():
+    pass
+
+
+def tyres_write_order(user_id, answer):
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('DELETE FROM Tyres WHERE user_id=:user_id', {'user_id': user_id})
+        cursor.execute('INSERT INTO Tyres VALUES (:user_id, :answer)', {"user_id": user_id, "answer": answer})
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        if str(e.message) == 'no such table: Tyres':
+            cursor.execute('CREATE TABLE Tyres(user_id TEXT, answer TEXT)')
+            cursor.execute('INSERT INTO Tyres VALUES (:user_id, :answer)', {"user_id": user_id, "answer": answer})
+            conn.commit()
+            conn.close()
+            write_error(str(e))
+        else:
+            write_error(str(e))
