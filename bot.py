@@ -1,5 +1,7 @@
 #!/bin/python2
 # coding=UTF-8
+import sys
+sys.path.append('libs')
 from flask import Flask, json, request
 import messageHandler
 from settings import *

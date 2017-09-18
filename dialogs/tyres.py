@@ -26,8 +26,14 @@ def find_tyres(user_id, answer):
     if answer == u'лето' or answer == u'зима':
         unblock_user(user_id)
         size = tyres_get_size(user_id)
-        message = u'Шины по вашему запросу:\n'
-        message += unicode(tyres_find(size, answer))
+        lst = tyres_find(size, answer)
+        if len(lst) > 0:
+            message = u'Шины по вашему запросу:\n'
+            message += u'Название   Сезон   Цена\n'
+            for row in lst:
+                message += row[0] + '   ' + row[1] + '  ' + row[2] + u'р.\n'
+        else:
+            message = u'К сожалению по вашему запросу не нашлось шин.\n'
         message += u'Сделать заказ на шины  - пиши "заказ", узнать стоимость работ по шиномонтажу "шиномонтаж",' \
                    u' сезонное хранение "хранение", регулировка сход-развал - "сход-развал".\nЕсли помощь больше не ' \
                    u'требуется - "выход"'

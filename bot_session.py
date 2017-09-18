@@ -3,6 +3,7 @@ import sqlite3
 from settings import *
 import datetime
 
+database_connector = sqlite3.connect
 
 def write_error(text):
     f = open('db_errors.txt', 'a')
@@ -11,7 +12,7 @@ def write_error(text):
 
 
 def check_session(user_id):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     cursor = conn.cursor()
     try:
         cursor.execute('SELECT route FROM Users WHERE user_id=:userid', {"userid": user_id})
@@ -31,14 +32,14 @@ def check_session(user_id):
 
 
 def block_user(user_id, route):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     conn.execute('INSERT INTO Users VALUES (:user_id, :route)', {"user_id": user_id, "route": route})
     conn.commit()
     conn.close()
 
 
 def getRoute(user_id):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     cursor = conn.cursor()
     cursor.execute('SELECT route FROM Users WHERE user_id=:userid', {"userid": user_id})
     result = cursor.fetchone()
@@ -46,14 +47,14 @@ def getRoute(user_id):
 
 
 def unblock_user(user_id):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     conn.execute('DELETE FROM Users WHERE user_id=:userid', {"userid": user_id})
     conn.commit()
     conn.close()
 
 
 def repair_write_answer(user_id, answer):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     cursor = conn.cursor()
     try:
         cursor.execute('DELETE FROM Repair WHERE user_id=:user_id', {'user_id': user_id})
@@ -73,21 +74,21 @@ def repair_write_answer(user_id, answer):
 
 
 def repair_remove_query(user_id):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     conn.execute('DELETE FROM Repair WHERE user_id=:user_id', {'user_id': user_id})
     conn.commit()
     conn.close()
 
 
 def repair_update_type(user_id, type):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     conn.execute('UPDATE Repair SET type=:type WHERE user_id=:user_id', {'user_id': user_id, 'type': type})
     conn.commit()
     conn.close()
 
 
 def parts_write_answer(user_id, answer):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     cursor = conn.cursor()
     try:
         cursor.execute('DELETE FROM Parts WHERE user_id=:user_id', {'user_id': user_id})
@@ -106,21 +107,21 @@ def parts_write_answer(user_id, answer):
 
 
 def parts_update_type(user_id, type):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     conn.execute('UPDATE Parts SET type=:type WHERE user_id=:user_id', {'user_id': user_id, 'type': type})
     conn.commit()
     conn.close()
 
 
 def parts_remove_query(user_id):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     conn.execute('DELETE FROM Parts WHERE user_id=:user_id', {'user_id': user_id})
     conn.commit()
     conn.close()
 
 
 def get_all_sales():
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     cursor = conn.cursor()
     try:
         cursor.execute('SELECT ROWID, description FROM Sales')
@@ -141,14 +142,14 @@ def get_all_sales():
 
 
 def get_sale_by_id(sale_id):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     cursor = conn.cursor()
     cursor.execute('SELECT text, image_src FROM Sales WHERE ROWID=:sale_id', {'sale_id': sale_id})
     return cursor.fetchone()
 
 
 def tools_write_db(user_id, answer):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     cursor = conn.cursor()
     try:
         cursor.execute('DELETE FROM Tools WHERE user_id=:user_id', {'user_id': user_id})
@@ -167,7 +168,7 @@ def tools_write_db(user_id, answer):
 
 
 def tyres_write_size(user_id, size):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     cursor = conn.cursor()
     try:
         cursor.execute('DELETE FROM Tyres_Query WHERE user_id=:user_id', {'user_id': user_id})
@@ -186,11 +187,11 @@ def tyres_write_size(user_id, size):
 
 
 def tyres_get_size(user_id):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     cursor = conn.cursor()
     try:
         cursor.execute('SELECT size FROM Tyres_Query WHERE user_id=:user_id', {'user_id': user_id})
-        answer = cursor.fetchone()
+        answer = cursor.fetchone()[0]
         cursor.execute('DELETE FROM Tyres_Query WHERE user_id=:user_id', {'user_id': user_id})
         conn.commit()
         conn.close()
@@ -201,32 +202,32 @@ def tyres_get_size(user_id):
 
 
 def tyres_find(size, season):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     cursor = conn.cursor()
     try:
-        cursor.execute('SELECT name, size, season, price FROM Tyres_Catalog WHERE size=:size AND season=:season',
+        cursor.execute('SELECT name, season, price FROM Tyres_Catalog WHERE size=:size AND season=:season',
                        {'size': size, 'season': season})
         return cursor.fetchall()
     except Exception as e:
         write_error(str(e))
-        return [('Name', '0/0/0', 'Season', '0')]
+        return [('Name', 'Season', '0')]
 
 
 # TODO: Реализовать следующие функции
 def tyres_get_install_price():
-    pass
+    return u'Попробуйте позже.'
 
 
 def tyres_get_fix_price():
-    pass
+    return u'Попробуйте позже.'
 
 
 def tyres_get_store_price():
-    pass
+    return u'Попробуйте позже.'
 
 
 def tyres_write_order(user_id, answer):
-    conn = sqlite3.connect(DATABASE)
+    conn = database_connector(DATABASE)
     cursor = conn.cursor()
     try:
         cursor.execute('DELETE FROM Tyres WHERE user_id=:user_id', {'user_id': user_id})
