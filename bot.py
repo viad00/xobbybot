@@ -1,6 +1,8 @@
-#!/bin/python2
+#!/usr/bin/env python
 # coding=UTF-8
 import sys
+import os
+sys.path.append(os.path.realpath(__file__))
 sys.path.append('libs')
 from flask import Flask, json, request
 import messageHandler
@@ -11,7 +13,7 @@ app = Flask(__name__)
 
 
 # Сюда приходит callback
-@app.route('/test_bot', methods=['POST'])
+@app.route('/bot', methods=['POST'])
 def processing():
     data = json.loads(request.data)
     if 'type' not in data.keys():

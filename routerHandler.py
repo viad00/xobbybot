@@ -1,4 +1,3 @@
-#!/bin/python2
 # coding=UTF-8
 from bot_session import getRoute
 from routes import *
