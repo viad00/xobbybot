@@ -1,5 +1,5 @@
 # coding=UTF-8
-import dialogs.block, dialogs.repair, dialogs.parts, dialogs.sales, dialogs.tools, dialogs.tyres
+import dialogs.block, dialogs.repair, dialogs.parts, dialogs.sales, dialogs.tools, dialogs.tyres, dialogs.admin
 
 routes = {
     'unblock': dialogs.block.unblock,
@@ -15,4 +15,5 @@ routes = {
     'tyres_season': dialogs.tyres.find_tyres,
     'tyres_dialog': dialogs.tyres.dialog_final,
     'tyres_order': dialogs.tyres.order,
+    'admin_start': dialogs.admin.start,
 }

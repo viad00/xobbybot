@@ -15,9 +15,9 @@ def load_modules():
        importlib.import_module("commands." + m[0:-3])
 
 
-def get_answer(body, user_id):
+def get_answer(body, user_id, attach):
    if check_session(user_id):
-       message, attachment = route(user_id, body)
+       message, attachment = route(user_id, body, attach)
        return message, attachment
    message = u"Прости, не понимаю тебя. Напиши 'помощь', чтобы узнать мои команды"
    attachment = ''
@@ -43,7 +43,11 @@ def get_answer(body, user_id):
 def create_answer(data, token):
    load_modules()
    user_id = data['user_id']
-   message, attachment = get_answer(data['body'].lower(), user_id)
+   try:
+      attachments = data['attachments']
+   except Exception:
+      attachments = []
+   message, attachment = get_answer(data['body'].lower(), user_id, attachments)
    vkapi.send_message(user_id, token, message, attachment)
 
 

@@ -243,3 +243,24 @@ def tyres_write_order(user_id, answer):
             write_error(str(e))
         else:
             write_error(str(e))
+
+
+def check_admin(user_id):
+    conn = database_connector(DATABASE)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('SELECT user_id FROM Admins WHERE user_id=:user_id', {'user_id': user_id})
+    except Exception as e:
+        if str(e.message) == 'no such table: Admins':
+            cursor.execute('CREATE TABLE Admins(user_id TEXT)')
+            cursor.execute('INSERT INTO Admins VALUES (:user_id)', {'user_id': user_id})
+        else:
+            write_error(str(e))
+        conn.commit()
+        conn.close()
+        return False
+    if len(cursor.fetchall()) > 0:
+        conn.close()
+        return True
+    conn.close()
+    return False
