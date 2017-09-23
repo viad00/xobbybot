@@ -148,6 +148,41 @@ def get_sale_by_id(sale_id):
     return cursor.fetchone()
 
 
+def sale_del_by_id(sale_id):
+    conn = database_connector(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM Sales WHERE ROWID=:sale_id', {'sale_id': sale_id})
+    conn.commit()
+    conn.close()
+
+
+def sale_add(desc):
+    conn = database_connector(DATABASE)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('DELETE FROM Sales WHERE text ISNULL AND image_src ISNULL')
+        cursor.execute('INSERT INTO Sales VALUES (:desc, NULL, NULL)', {'desc': desc})
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        if str(e.message) == 'no such table: Sales':
+            cursor.execute('CREATE TABLE Sales(description TEXT, text TEXT, image_src TEXT)')
+            cursor.execute('INSERT INTO Sales VALUES (:desc, NULL, NULL)', {'desc': desc})
+            conn.commit()
+            conn.close()
+        write_error(str(e))
+
+
+def sale_add_p1(text, attach):
+    conn = database_connector(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute('UPDATE Sales SET text=:text, image_src=:attach WHERE text ISNULL AND image_src ISNULL',
+                   {'text': text, 'attach': attach})
+    conn.commit()
+    conn.close()
+
+
+
 def tools_write_db(user_id, answer):
     conn = database_connector(DATABASE)
     cursor = conn.cursor()
@@ -213,17 +248,62 @@ def tyres_find(size, season):
         return [('Name', 'Season', '0')]
 
 
-# TODO: Реализовать следующие функции
 def tyres_get_install_price():
-    return u'Попробуйте позже.'
+    service = u'install'
+    conn = database_connector(DATABASE)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('SELECT price FROM Tyres_Service WHERE service=:service', {'service': service})
+        answer = cursor.fetchone()[0]
+    except Exception as e:
+        write_error(str(e))
+        answer = u'Попробуйте позже.'
+    return answer
 
 
 def tyres_get_fix_price():
-    return u'Попробуйте позже.'
+    service = u'fix'
+    conn = database_connector(DATABASE)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('SELECT price FROM Tyres_Service WHERE service=:service', {'service': service})
+        answer = cursor.fetchone()[0]
+    except Exception as e:
+        write_error(str(e))
+        answer = u'Попробуйте позже.'
+    return answer
 
 
 def tyres_get_store_price():
-    return u'Попробуйте позже.'
+    service = u'store'
+    conn = database_connector(DATABASE)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('SELECT price FROM Tyres_Service WHERE service=:service', {'service': service})
+        answer = cursor.fetchone()[0]
+    except Exception as e:
+        write_error(str(e))
+        answer = u'Попробуйте позже.'
+    return answer
+
+
+def tyres_set_service_price(service, price):
+    conn = database_connector(DATABASE)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('DELETE FROM Tyres_Service WHERE service=:service', {'service': service})
+        cursor.execute('INSERT INTO Tyres_Service VALUES (:service, :price)', {'service': service, 'price': price})
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        if str(e.message) == 'no such table: Tyres_Service':
+            cursor.execute('CREATE TABLE Tyres_Service(service TEXT, price TEXT)')
+            cursor.execute('INSERT INTO Tyres_Service VALUES (:service, :price)', {'service': service, 'price': price})
+            conn.commit()
+            conn.close()
+            write_error(str(e))
+        else:
+            write_error(str(e))
 
 
 def tyres_write_order(user_id, answer):
@@ -264,3 +344,36 @@ def check_admin(user_id):
         return True
     conn.close()
     return False
+
+
+def admins_get_all():
+    conn = database_connector(DATABASE)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('SELECT ROWID, user_id FROM Admins')
+    except Exception as e:
+        write_error(str(e))
+        return [(1, u'Нет администраторов')]
+    sales = cursor.fetchall()
+    if len(sales) > 0:
+        return sales
+    else:
+        return [(1, u'Нет администраторов')]
+
+
+def admin_del_by_id(row_id):
+    conn = database_connector(DATABASE)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('DELETE FROM Admins WHERE ROWID=:row_id', {'row_id': row_id})
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        write_error(str(e))
+
+
+def add_admin(user_id):
+    conn = database_connector(DATABASE)
+    conn.execute('INSERT INTO Admins VALUES (:user_id)', {'user_id': user_id})
+    conn.commit()
+    conn.close()

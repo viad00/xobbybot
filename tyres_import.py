@@ -11,12 +11,11 @@ import sqlite3
 from settings import *
 
 
-def process_import():
-    rb = xlrd.open_workbook(filter(lambda x: x.endswith('.xls'), os.listdir(os.path.realpath(__file__)[0:-15]))[0],
-                            formatting_info=True)
+def process_import(path):
+    rb = xlrd.open_workbook(path, formatting_info=True)
     sheet = rb.sheet_by_index(0)
 
-    database_connector = sqlite3.connect('../' + DATABASE)
+    database_connector = sqlite3.connect(DATABASE)
 
     cursor = database_connector.cursor()
     cursor.execute('DROP TABLE IF EXISTS Tyres_Catalog')
