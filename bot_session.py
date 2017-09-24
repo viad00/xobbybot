@@ -87,6 +87,15 @@ def repair_update_type(user_id, type):
     conn.close()
 
 
+def repair_get_text(user_id):
+    conn = database_connector(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute('SELECT answer FROM Repair WHERE user_id=:user_id', {'user_id': user_id})
+    ste = cursor.fetchone()
+    conn.close()
+    return ste[0][0]
+
+
 def parts_write_answer(user_id, answer):
     conn = database_connector(DATABASE)
     cursor = conn.cursor()
@@ -118,6 +127,15 @@ def parts_remove_query(user_id):
     conn.execute('DELETE FROM Parts WHERE user_id=:user_id', {'user_id': user_id})
     conn.commit()
     conn.close()
+
+
+def parts_get_text(user_id):
+    conn = database_connector(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute('SELECT answer FROM Parts WHERE user_id=:user_id', {'user_id': user_id})
+    ste = cursor.fetchone()
+    conn.close()
+    return ste[0][0]
 
 
 def get_all_sales():

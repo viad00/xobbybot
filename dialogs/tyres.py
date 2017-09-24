@@ -3,6 +3,7 @@
 from bot_session import tyres_write_size, block_user, unblock_user, tyres_find, tyres_get_size,\
     tyres_get_install_price, tyres_get_store_price, tyres_get_fix_price, tyres_write_order
 import re
+import mail_sender
 
 exit_message = u'\nЕсли у тебя остались вопросы, пиши "заказ", "шиномонтаж", "хранение" или "сход-развал". ' \
                    u'Если у тебя больше нет вопросов, пиши "выход"'
@@ -76,5 +77,6 @@ def dialog_final(user_id, answer):
 def order(user_id, answer):
     unblock_user(user_id)
     tyres_write_order(user_id, answer)
+    mail_sender.send_mail(answer, user_id, u'Заказ на шины')
     block_user(user_id, 'tyres_dialog')
     return u'Отлично! Через некторое время с тобой свяжется менеджер.' + exit_message, ''

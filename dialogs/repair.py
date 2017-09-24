@@ -1,7 +1,8 @@
 #!/bin/python2
 # coding=UTF-8
 
-from bot_session import repair_write_answer, unblock_user, block_user, repair_remove_query, repair_update_type
+from bot_session import repair_write_answer, unblock_user, block_user, repair_remove_query, repair_update_type, repair_get_text
+import mail_sender
 
 ask_for_parts = u'Пиши "заказ" - если нужны запчасти, \n"запись" - если все уже готово, \n"отмена" - если ты передумал'
 refuse = u'Вы отменили запись на ремонт.\nЕсли вы хотите записаться ещё раз, то напишите "ремонт".\n' \
@@ -28,6 +29,7 @@ def repair_type(user_id, answer):
     elif answer == u'запись':
         repair_update_type(user_id, u'запись')
         unblock_user(user_id)
+        mail_sender.send_mail(repair_get_text(user_id), user_id, u'Запись на ремонт')
         return exit_mode, ''
     elif answer == u'отмена':
         unblock_user(user_id)
@@ -40,6 +42,7 @@ def repair_type(user_id, answer):
 def repair_ok(user_id, answer):
     if answer == u'ок' or answer == u'ok':
         unblock_user(user_id)
+        mail_sender.send_mail(repair_get_text(user_id), user_id, u'Заказ на ремонт и подбор')
         return exit_mode, ''
     elif answer == u'отмена':
         repair_remove_query(user_id)
