@@ -93,7 +93,7 @@ def repair_get_text(user_id):
     cursor.execute('SELECT answer FROM Repair WHERE user_id=:user_id', {'user_id': user_id})
     ste = cursor.fetchone()
     conn.close()
-    return ste[0][0]
+    return ste[0]
 
 
 def parts_write_answer(user_id, answer):
@@ -135,7 +135,7 @@ def parts_get_text(user_id):
     cursor.execute('SELECT answer FROM Parts WHERE user_id=:user_id', {'user_id': user_id})
     ste = cursor.fetchone()
     conn.close()
-    return ste[0][0]
+    return ste[0]
 
 
 def get_all_sales():
