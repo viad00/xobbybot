@@ -1,4 +1,4 @@
-# XobbyBot
+# PddBot
 
 Бот для VK группы ХоббиАвто.
 Реализованн как микросервис Flask (Python 2.7) на Callback API.
