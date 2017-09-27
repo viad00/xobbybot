@@ -24,8 +24,8 @@ def processing():
         messageHandler.create_answer(data['object'], VK_TOKEN)
         return 'ok'
     elif data['type'] == 'message_allow':
-        message = u'Привет!\nЯ чат-бот автосервиса Хобби-Авто.\nНаш сайт http://www.hobbyauto.ru\nБуду рад ответить на ' \
-                  u'возникшие вопросы!\nНапиши "помощь" для списка комманд.'
+        message = u'Привет!\nЯ чат-бот для проверки знаний ПДД.\n' \
+                  u'Напиши "помощь" для списка комманд.\nПиши "тест" для тестирования!'
         vkapi.send_message(data['object']['user_id'], VK_TOKEN, message, '')
         return 'ok'
 
