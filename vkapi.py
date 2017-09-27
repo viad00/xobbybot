@@ -20,9 +20,9 @@ def get_name(user_id):
     return rs[0]['first_name'] + ' ' + rs[0]['last_name']
 
 
-def upload_photo(user_id, hash):
+def upload_photo(user_id, binary):
     a = api.photos.getMessagesUploadServer(access_token=VK_TOKEN, peer_id=user_id)
-    b = requests.post(a['upload_url'], files={'photo': open('images/'+hash+'.jpg', 'rb')}).json()
+    b = requests.post(a['upload_url'], files={'photo': binary}).json()
     c = api.photos.saveMessagesPhoto(access_token=VK_TOKEN, photo=b['photo'], server=b['server'], hash=b['hash'])
     d = 'photo{0}_{1}'.format(c[0]['owner_id'], c[0]['id'])
     return d
